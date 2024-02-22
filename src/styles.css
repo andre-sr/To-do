@@ -1,0 +1,78 @@
+body {
+    background: linear-gradient(140deg, rgba(175,40,150,1) 9%, rgba(80,155,245,1) 100%);
+    font-family: 'Geneva', Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 700;
+    padding: 15px;
+}
+
+header span {
+    font-size: 35px;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+}
+
+main .main-container{
+    background-color:  var(--bg-color-2);
+    width: 65vw;
+    height: 75vh;
+    border-radius: 15px;
+    padding: 10px 35px;
+}
+
+main .main-container .main-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+main .main-container .main-info h1 {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+main .main-container .main-info span {
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+main .main-container .task-list-container {
+    background-color: var(--bg-color-3);
+    height: 83%;
+    border-radius: 3px;
+    padding: 5px 0px;
+}
+
+main .main-container .task-list-container .task {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+main .main-container .task-list-container .task .task-title{
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+main .main-container .task-list-container .task .task-title:focus{
+    text-decoration: underline;
+}
+
+main .main-container .task-list-container .task span {
+    margin-top: 15px;
+}
