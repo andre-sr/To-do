@@ -28,8 +28,8 @@ main {
 
 main .main-container{
     background-color:  var(--bg-color-2);
-    width: 65vw;
-    height: 75vh;
+    width: 55vw;
+    height: 85vh;
     border-radius: 15px;
     padding: 10px 35px;
 }
@@ -52,7 +52,7 @@ main .main-container .main-info span {
 
 main .main-container .task-list-container {
     background-color: var(--bg-color-3);
-    height: 83%;
+    height: 90%;
     border-radius: 3px;
     padding: 5px 0px;
 }

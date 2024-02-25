@@ -4,13 +4,7 @@ const taskList = document.querySelector('#task-list')
 
 
 let taskStorage = {
-    tasks: {},
-    addTask: function(id,taskTitle) {
-        
-        this.tasks[id] = {
-            title: taskTitle
-        }
-    } 
+    tasks: {}
 }
 
 
@@ -22,6 +16,13 @@ AddTaskButton.addEventListener('click', () => {
 })
 
 //FUNCTIONS
+    function addTaskStorage(id,taskTitle) {
+        
+        taskStorage[id] = {
+            title: taskTitle
+        }
+    } 
+
 const addTask = () => {
     const task = document.querySelectorAll('.task')
 
@@ -53,7 +54,7 @@ const eventListenerCreator = () => {
 
         inputTaskTitle.addEventListener('keypress', (event) => { //ADICIONA EVENTO AO INPUT DO TÍTULO DA TASK
             if (event.keyCode === 13 || event.keyCode === 9 ) {
-                taskStorage.addTask(inputTaskTitle.parentNode.id,inputTaskTitle.value)
+                addTaskStorage(inputTaskTitle.parentNode.id,inputTaskTitle.value)
                 giveToLocalStorage()
             }
         })
@@ -70,7 +71,7 @@ const eventListenerCreator = () => {
 
             inputTaskTitle.addEventListener('keypress', (event) => { //ADICIONA EVENTO AO INPUT DO TÍTULO DA TASK
                 if (event.keyCode === 13 || event.keyCode === 9 ) {
-                    taskStorage.addTask(inputTaskTitle.parentNode.id,inputTaskTitle.value)
+                    addTaskStorage(inputTaskTitle.parentNode.id,inputTaskTitle.value)
                     giveToLocalStorage()
                 }
             })
@@ -90,8 +91,19 @@ const giveToLocalStorage = () => {
 
 const takeFromLocalStorage = () => {
     let taskStorageStringifyded = localStorage.getItem('main')
-    let taskStorageUnstringifyded = JSON.parse(taskStorageStringifyded)
-    taskStorage = taskStorageUnstringifyded
+    const tasksNumber = contarObjetosEmTasks(taskStorage)
+    if (tasksNumber >= 0) {
+        let taskStorageUnstringifyded = JSON.parse(taskStorageStringifyded)
+        taskStorage = taskStorageUnstringifyded
+    } else {
+        taskStorage = { tasks: {}, 
+            addTask: function(id, taskTitle) { 
+                this.tasks[id] = {
+                    title: taskTitle
+                }
+            } 
+        }
+    }
 }
 
 function contarObjetosEmTasks(objeto) {
@@ -109,7 +121,7 @@ function contarObjetosEmTasks(objeto) {
   }
 
 const constructor = () => {
-    
+
     const tasksNumber = contarObjetosEmTasks(taskStorage)
 
     for (i = 0; i < tasksNumber; i++) {
