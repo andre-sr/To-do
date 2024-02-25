@@ -3,11 +3,7 @@ const AddTaskButton = document.querySelector('#add-task-button')
 const taskList = document.querySelector('#task-list')
 
 
-let taskStorage = {
-    tasks: {}
-}
-
-
+let taskStorage = {}
 
 //EVENTS
 AddTaskButton.addEventListener('click', () => {
@@ -16,12 +12,15 @@ AddTaskButton.addEventListener('click', () => {
 })
 
 //FUNCTIONS
-    function addTaskStorage(id,taskTitle) {
-        
+    function addTaskStorage(id,taskTitle) { 
         taskStorage[id] = {
             title: taskTitle
         }
     } 
+
+const taskStorageOrganize = () => {
+    
+}
 
 const addTask = () => {
     const task = document.querySelectorAll('.task')
@@ -60,7 +59,7 @@ const eventListenerCreator = () => {
         })
 
         removeTaskButton.addEventListener ('click', () => { //ADICIONA EVENTO AO SPAN
-            removeTaskButton.parentNode.remove()
+            removeTask(removeTaskButton)
         })
     } else {
         for (i = 0; i < task.length; i++) {
@@ -77,51 +76,49 @@ const eventListenerCreator = () => {
             })
 
             removeTaskButton.addEventListener ('click', () => { //ADICIONA EVENTO AO SPAN 
-                removeTaskButton.parentNode.remove()
+                removeTask(removeTaskButton)
             })
         }
     }
 }
 
+const removeTask = (removeTaskButton) => {
+    removeTaskButton.parentNode.remove()
+    const tasksElementID = removeTaskButton.parentNode.id
+    delete taskStorage[tasksElementID]
+    giveToLocalStorage()
+}
+
 const giveToLocalStorage = () => {
     localStorage.clear()
+    
     let taskStorageStringifyded = JSON.stringify(taskStorage)
     localStorage.setItem('main', taskStorageStringifyded)
 }
 
 const takeFromLocalStorage = () => {
     let taskStorageStringifyded = localStorage.getItem('main')
-    const tasksNumber = contarObjetosEmTasks(taskStorage)
-    if (tasksNumber >= 0) {
-        let taskStorageUnstringifyded = JSON.parse(taskStorageStringifyded)
-        taskStorage = taskStorageUnstringifyded
-    } else {
-        taskStorage = { tasks: {}, 
-            addTask: function(id, taskTitle) { 
-                this.tasks[id] = {
-                    title: taskTitle
-                }
-            } 
-        }
-    }
+   // const tasksNumber = contarObjetosEmTasks(taskStorage)
+    
+    let taskStorageUnstringifyded = JSON.parse(taskStorageStringifyded)
+    taskStorage = taskStorageUnstringifyded
 }
 
 function contarObjetosEmTasks(objeto) {
-    if (objeto && objeto.tasks) {
+    if (objeto) {
       let contador = 0;
-      for (let chave in objeto.tasks) {
-        if (typeof objeto.tasks[chave] === 'object') {
+      for (let chave in objeto) {
+        if (typeof objeto[chave] === 'object') {
           contador++;
         }
       }
       return contador;
     } else {
-      return 0; // Retorna 0 se não houver a propriedade 'tasks' ou se 'tasks' for null/undefined
+      return 0; 
     }
   }
 
 const constructor = () => {
-
     const tasksNumber = contarObjetosEmTasks(taskStorage)
 
     for (i = 0; i < tasksNumber; i++) {
@@ -131,12 +128,20 @@ const constructor = () => {
     const taskTitleElement = document.querySelectorAll('#input-task-title')
 
     for (i = 0; i < tasksNumber; i++) {
-        let ttt = taskStorage.tasks[`_${i}`]
-        taskTitleElement[i].value = ttt.title
+        let idTaskStorage = taskStorage[`_${i}`]
+        taskTitleElement[i].value = idTaskStorage.title
     }
 }
 
+function testMainLocalStorage () {
+    const mainLocalStorage = localStorage.getItem('main')
+
+    if (mainLocalStorage == null) {
+        localStorage.setItem('main', '{"_0":{"title":""}}')
+    }
+}
 
 //STUFF THAT SHOULD BE EXECUTEDED AS THE PAGE IS OPEN OR RELOAD
+testMainLocalStorage()
 takeFromLocalStorage()
 constructor()
