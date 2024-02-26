@@ -1,6 +1,7 @@
 //VARIABLES
 const AddTaskButton = document.querySelector('#add-task-button')
 const taskList = document.querySelector('#task-list')
+const removeAllTasksButton = document.querySelector('#remove-all-tasks')
 
 
 let taskStorage = {}
@@ -11,6 +12,16 @@ AddTaskButton.addEventListener('click', () => {
     eventListenerCreator()
 })
 
+removeAllTasksButton.addEventListener('click', () => {
+    const tasksNumber = contarObjetosEmTasks(taskStorage)
+    
+    for (i = 0; i < tasksNumber; i++) {
+        const removeTaskButtonList = document.querySelectorAll('#remove-task-button')
+        const removeTaskButton = removeTaskButtonList[i]
+        removeTask(removeTaskButton)
+    }
+})
+
 //FUNCTIONS
     function addTaskStorage(id,taskTitle) { 
         taskStorage[id] = {
@@ -19,6 +30,18 @@ AddTaskButton.addEventListener('click', () => {
     } 
 
 const taskStorageOrganize = () => {
+    const tasksNumber = contarObjetosEmTasks(taskStorage)
+    
+    for (i = 0; i < tasksNumber; i++) {
+        console.log('flamengo')
+        if (!taskStorage[`_${i}`]) {
+            console.log('lituano')
+            taskStorage[`_${i}`] = taskStorage[`_${i+1}`]
+            delete taskStorage[`_${i+1}`]
+            i = 0
+        }
+        
+    }
     
 }
 
@@ -86,6 +109,7 @@ const removeTask = (removeTaskButton) => {
     removeTaskButton.parentNode.remove()
     const tasksElementID = removeTaskButton.parentNode.id
     delete taskStorage[tasksElementID]
+    taskStorageOrganize()
     giveToLocalStorage()
 }
 
